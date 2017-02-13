@@ -38,8 +38,7 @@ values."
      ;; ----------------------------------------------------------------
      helm
      (auto-completion :variables
-                      auto-completion-enable-help-tooltip t
-                      auto-completion-enable-snippets-in-popup t)
+                      auto-completion-enable-help-tooltip t)
      ;; better-defaults
      emacs-lisp
      git
@@ -62,11 +61,11 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(auto-complete processing-mode processing-snippets gradle-mode groovy-mode ssh-agency)
+   dotspacemacs-additional-packages '(processing-mode processing-snippets gradle-mode groovy-mode ssh-agency tablist company-emacs-eclim)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(company)
+   dotspacemacs-excluded-packages '()
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -307,12 +306,15 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (global-auto-complete-mode)
+  (global-company-mode)
   ;;Processing-mode config
 	(defun processing-config-windows ()
     (setq processing-location "d:/dev/processing/processing-java.exe")
     (setq processing-application-dir "d:/dev/processing")
     (setq processing-sketchbook-dir "d:/Olivier/Documents/sketchbooks")
+    (setq eclim-eclipse-dirs "d:/dev/eclipse")
+	(setq eclim-executable "d:/dev/eclipse/eclim.bat")
+	(setq eclimd-default-workspace "d:/Olivier/workspace/java")
     )
 
   (defun processing-config-linux ()
@@ -326,20 +328,17 @@ you should place your code here."
     (processing-config-linux)
     )
 
-  ;;Processing-mode snippets
-  (autoload 'processing-snippets-initialize "processing-snippets" nil nil nil)
-  (eval-after-load 'yasnippet '(processing-snippets-initialize))
+  ;; Add yasnippet support for all company backends
+  ;; https://github.com/syl20bnr/spacemacs/pull/179
+  (defvar company-mode/enable-yas t "Enable yasnippet for all backends.")
 
-  ;;Processing-mode auto-complete
-  (defun processing-mode-init ()
-    (make-local-variable 'ac-sources)
-    (setq ac-sources '(ac-source-dictionary ac-source-yasnippet))
-    (make-local-variable 'ac-user-dictionary)
-    (setq ac-user-dictionary (append processing-functions
-                                     processing-builtins
-                                     processing-constants)))
-  (add-to-list 'ac-modes 'processing-mode)
-  (add-hook 'processing-mode-hook 'processing-mode-init)
+  (defun company-mode/backend-with-yas (backend)
+    (if (or (not company-mode/enable-yas) (and (listp backend)    (member 'company-yasnippet backend)))
+        backend
+      (append (if (consp backend) backend (list backend))
+              '(:with company-yasnippet))))
+
+  (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
 
   ;;Git-bash shell config
   (defun opet--test ()
@@ -357,6 +356,8 @@ you should place your code here."
         )
     ()
 		)
+
+  (setenv "PATH" (concat "C:\\msys64\\mingw64\\bin;" (getenv "PATH")))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -368,7 +369,7 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (pdf-tools tablist helm helm-core magit yasnippet alert log4e gntp pythonic ssh-agency magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht ssh xterm-color shell-pop multi-term flycheck-pos-tip flycheck eshell-z eshell-prompt-extras esh-help yapfify yaml-mode ws-butler window-numbering which-key web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tern spacemacs-theme spaceline smeargle restart-emacs rainbow-delimiters quelpa pyvenv pytest pyenv-mode py-isort processing-snippets processing-mode popwin pony-mode pip-requirements persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint json-mode js2-refactor js-doc info+ indent-guide ido-vertical-mode hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag groovy-mode gradle-mode google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav eclim dumb-jump diff-hl define-word cython-mode company-statistics company-quickhelp column-enforce-mode coffee-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-compile anaconda-mode aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (pdf-tools company-tern dash-functional company-anaconda company-emacs-eclim ac-emacs-eclim tablist helm helm-core magit yasnippet alert log4e gntp pythonic ssh-agency magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht ssh xterm-color shell-pop multi-term flycheck-pos-tip flycheck eshell-z eshell-prompt-extras esh-help yapfify yaml-mode ws-butler window-numbering which-key web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tern spacemacs-theme spaceline smeargle restart-emacs rainbow-delimiters quelpa pyvenv pytest pyenv-mode py-isort processing-snippets processing-mode popwin pony-mode pip-requirements persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint json-mode js2-refactor js-doc info+ indent-guide ido-vertical-mode hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag groovy-mode gradle-mode google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav eclim dumb-jump diff-hl define-word cython-mode company-statistics company-quickhelp column-enforce-mode coffee-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-compile anaconda-mode aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
