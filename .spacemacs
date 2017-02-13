@@ -256,7 +256,7 @@ values."
    ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
    ;; derivatives. If set to `relative', also turns on relative line numbers.
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   do:tspacemacs-line-numbers nil
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -308,9 +308,19 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (global-auto-complete-mode)
   ;;Processing-mode config
-  (setq processing-location "d:/dev/processing/processing-java.exe")
-  (setq processing-application-dir "d:/dev/processing")
-  (setq processing-sketchbook-dir "d:/Olivier/Documents/sketchbooks")
+	(defun processing-config-windows ()
+    (setq processing-location "d:/dev/processing/processing-java.exe")
+    (setq processing-application-dir "d:/dev/processing")
+    (setq processing-sketchbook-dir "d:/Olivier/Documents/sketchbooks")
+    )
+
+  (defun processing-config-linux ()
+    )
+
+  (if (eq system-type 'windows-nt)
+      (processing-config-windows)
+    (processing-config-linux)
+    )
 
   ;;Processing-mode snippets
   (autoload 'processing-snippets-initialize "processing-snippets" nil nil nil)
@@ -330,17 +340,19 @@ you should place your code here."
   ;;Git-bash shell config
   (defun opet--test ()
     (interactive)
-    ("shell" "*shell*" (lambda () (shell)))
     )
 
-  (defun run-bash ()
-    (interactive)
-    (split-window-below 40)
-    (let ((shell-file-name "C:\\Program Files\\Git\\bin\\bash.exe")) (shell "*bash*"))
-    (delete-window)
-    (set-window-buffer (next-window) "*bash*")
-    (select-window (next-window))
-    )
+	(if (eq system-type 'windows-nt)
+      (defun git-bash ()
+        (interactive)
+        (split-window-below 40)
+        (let ((shell-file-name "C:\\Program Files\\Git\\bin\\bash.exe")) (shell "*bash*"))
+        (delete-window)
+        (set-window-buffer (next-window) "*bash*")
+        (select-window (next-window))
+        )
+    ()
+		)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
