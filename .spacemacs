@@ -313,8 +313,9 @@ you should place your code here."
     (setq processing-application-dir "d:/dev/processing")
     (setq processing-sketchbook-dir "d:/Olivier/Documents/sketchbooks")
     (setq eclim-eclipse-dirs "d:/dev/eclipse")
-	(setq eclim-executable "d:/dev/eclipse/eclim.bat")
-	(setq eclimd-default-workspace "d:/Olivier/workspace/java")
+	  (setq eclim-executable "d:/dev/eclipse/eclim.bat")
+	  (setq eclimd-default-workspace "d:/Olivier/workspace/java")
+    (setenv "PATH" (concat "C:\\msys64\\mingw64\\bin;" (getenv "PATH")))
     )
 
   (defun processing-config-linux ()
@@ -357,7 +358,6 @@ you should place your code here."
     ()
 		)
 
-  (setenv "PATH" (concat "C:\\msys64\\mingw64\\bin;" (getenv "PATH")))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
