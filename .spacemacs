@@ -322,6 +322,9 @@ you should place your code here."
     (setq processing-location "/opt/processing/processing-java")
     (setq processing-application-dir "/opt/processing")
     (setq processing-sketchbook-dir "~/sketchbook/")
+    (setq eclim-eclipse-dirs "/opt/eclipse")
+	  (setq eclim-executable "/opt/eclipse/eclim")
+	  (setq eclimd-default-workspace "~/workspace/eclim")
     )
 
   (if (eq system-type 'windows-nt)
