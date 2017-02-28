@@ -46,7 +46,7 @@ values."
      markdown
      yaml
      javascript
-     java
+     ;; osx
      pdf-tools
      org
      django
@@ -61,7 +61,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(processing-mode processing-snippets gradle-mode groovy-mode ssh-agency tablist company-emacs-eclim)
+   dotspacemacs-additional-packages '(processing-mode processing-snippets gradle-mode groovy-mode ssh-agency tablist)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -312,10 +312,15 @@ you should place your code here."
     (setq processing-location "d:/dev/processing/processing-java.exe")
     (setq processing-application-dir "d:/dev/processing")
     (setq processing-sketchbook-dir "d:/Olivier/Documents/sketchbooks")
-    (setq eclim-eclipse-dirs "d:/dev/eclipse")
-	  (setq eclim-executable "d:/dev/eclipse/eclim.bat")
-	  (setq eclimd-default-workspace "d:/Olivier/workspace/java")
     (setenv "PATH" (concat "C:\\msys64\\mingw64\\bin;" (getenv "PATH")))
+    (defun git-bash ()
+      (interactive)
+      (split-window-below 40)
+      (let ((shell-file-name "C:\\Program Files\\Git\\bin\\bash.exe")) (shell "*bash*"))
+      (delete-window)
+      (set-window-buffer (next-window) "*bash*")
+      (select-window (next-window))
+      )
     )
 
   (defun processing-config-linux ()
@@ -324,9 +329,18 @@ you should place your code here."
     (setq processing-sketchbook-dir "~/sketchbook/")
     )
 
+  (defun processing-config-osx()
+    (setq processing-location "/Applications/Processing.app/Content/MACOSX/Processing")
+    (setq processing-application-dir "/Applications/Processing.app")
+    (setq processing-sketchbook-dir "/Documents/Processing")
+    )
+
   (if (eq system-type 'windows-nt)
       (processing-config-windows)
-    (processing-config-linux)
+    (if (eq system-type 'darwin)
+        (processing-config-osx)
+      (processing-config-linux)
+      )
     )
 
   ;; Add yasnippet support for all company backends
@@ -347,14 +361,6 @@ you should place your code here."
     )
 
 	(if (eq system-type 'windows-nt)
-      (defun git-bash ()
-        (interactive)
-        (split-window-below 40)
-        (let ((shell-file-name "C:\\Program Files\\Git\\bin\\bash.exe")) (shell "*bash*"))
-        (delete-window)
-        (set-window-buffer (next-window) "*bash*")
-        (select-window (next-window))
-        )
     ()
 		)
 
@@ -369,7 +375,7 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (pdf-tools company-tern dash-functional company-anaconda company-emacs-eclim ac-emacs-eclim tablist helm helm-core magit yasnippet alert log4e gntp pythonic ssh-agency magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht ssh xterm-color shell-pop multi-term flycheck-pos-tip flycheck eshell-z eshell-prompt-extras esh-help yapfify yaml-mode ws-butler window-numbering which-key web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tern spacemacs-theme spaceline smeargle restart-emacs rainbow-delimiters quelpa pyvenv pytest pyenv-mode py-isort processing-snippets processing-mode popwin pony-mode pip-requirements persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint json-mode js2-refactor js-doc info+ indent-guide ido-vertical-mode hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag groovy-mode gradle-mode google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav eclim dumb-jump diff-hl define-word cython-mode company-statistics company-quickhelp column-enforce-mode coffee-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-compile anaconda-mode aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (projectile highlight js2-mode evil company multiple-cursors magit-popup git-commit async pdf-tools company-tern dash-functional company-anaconda company-emacs-eclim ac-emacs-eclim tablist helm helm-core magit yasnippet alert log4e gntp pythonic ssh-agency magit-gh-pulls github-search github-clone github-browse-file gist gh marshal logito pcache ht ssh xterm-color shell-pop multi-term flycheck-pos-tip flycheck eshell-z eshell-prompt-extras esh-help yapfify yaml-mode ws-butler window-numbering which-key web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toc-org tern spacemacs-theme spaceline smeargle restart-emacs rainbow-delimiters quelpa pyvenv pytest pyenv-mode py-isort processing-snippets processing-mode popwin pony-mode pip-requirements persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-plus-contrib org-download org-bullets open-junk-file neotree move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint json-mode js2-refactor js-doc info+ indent-guide ido-vertical-mode hy-mode hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag groovy-mode gradle-mode google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav eclim dumb-jump diff-hl define-word cython-mode company-statistics company-quickhelp column-enforce-mode coffee-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-compile anaconda-mode aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
