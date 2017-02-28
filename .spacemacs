@@ -358,14 +358,11 @@ you should place your code here."
 
   (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
 
-  ;;Git-bash shell config
+  ;; Some test
   (defun opet--test ()
     (interactive)
     )
 
-	(if (eq system-type 'windows-nt)
-    ()
-		)
 
   )
 
