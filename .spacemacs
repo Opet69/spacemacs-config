@@ -47,7 +47,7 @@ values."
      yaml
      javascript
      pdf-tools
-     osx
+     ;; osx
      org
      django
      (shell :variables
