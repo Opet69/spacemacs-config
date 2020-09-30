@@ -530,6 +530,7 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (add-hook 'prog-mode-hook 'diff-hl-flydiff-mode)
+  (add-hook 'prog-mode-hook 'diff-hl-margin-mode)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
