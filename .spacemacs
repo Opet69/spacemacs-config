@@ -62,6 +62,7 @@ This function should only modify configuration layer settings."
                       auto-completion-use-company-box nil
                       auto-completion-enable-sort-by-usage nil)
      (lsp :variables)
+     (dap :variables)
      (rust :variables
            rust-backend 'racer
            rust-format-on-save t
@@ -69,9 +70,7 @@ This function should only modify configuration layer settings."
      (javascript :variables javascript-backend 'lsp)
      (typescript :variables typescript-backend 'lsp)
      (vue :variables vue-backend 'lsp)
-     (python :variables
-             python-backend 'lsp
-             python-indent-offset 2)
+     (python :variables python-backend 'lsp)
      (java :variables java-backend 'lsp lsp-java-java-path "~/dev/jdk-14.0.1/bin/java")
      (docker :variables docker-dockerfile-backend 'lsp)
      (json :variables json-backend 'lsp)
