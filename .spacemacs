@@ -68,8 +68,6 @@ This function should only modify configuration layer settings."
            rust-format-on-save t
            rust-indent-offset 2)
      (javascript :variables javascript-backend 'lsp)
-     (typescript :variables typescript-backend 'lsp)
-     (vue :variables vue-backend 'lsp)
      (python :variables python-backend 'lsp)
      (java :variables java-backend 'lsp lsp-java-java-path "~/dev/jdk-14.0.1/bin/java")
      (docker :variables docker-dockerfile-backend 'lsp)
