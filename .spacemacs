@@ -61,10 +61,10 @@ This function should only modify configuration layer settings."
                       auto-completion-enable-help-tooltip nil
                       auto-completion-use-company-box nil
                       auto-completion-enable-sort-by-usage nil)
-     (lsp :variables)
+     (lsp :variables lsp-rust-server 'rust-analyzer)
      (dap :variables)
      (rust :variables
-           rust-backend 'racer
+           rust-backend 'lsp
            rust-format-on-save t
            rust-indent-offset 2)
      (javascript :variables javascript-backend 'lsp)
